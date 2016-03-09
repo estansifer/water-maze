@@ -1,0 +1,8 @@
+{
+    "name": "water-maze",
+    "version": "0.0.1",
+    "title": "Water Maze",
+    "author": "Eric Stansifer",
+    "description": "Changes the initial land and water distribution",
+    "dependencies": ["base >= 0.12.26"]
+}
