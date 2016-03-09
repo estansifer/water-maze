@@ -25,7 +25,7 @@ This mod changes the distribution of land and water at the start of a new game.
  * The map setting for water size does not have a direct effect on the game. If Factorio spawns
  water at a location where this mod wishes to place land, it will be replaced with grass; so
  any large featureless expanses of grass can be thought of as ancient lake beds. The map
- setting for water does effect the distribution of dry/wet biomes and in particular the amount
+ setting for water does affect the distribution of dry/wet biomes and in particular the amount
  of trees, neither of which the mod modifies.
  * You can choose between blue and green water!
  * This mod should be considered unstable and may contain bugs. In particular, version changes
