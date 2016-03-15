@@ -167,10 +167,27 @@ local function maze1()
             end
         end
 
-        assign(x1 - 1, y1 - 1, math.random() < 0.5)
-        assign(x1 - 1, y2 + 1, math.random() < 0.5)
-        assign(x2 + 1, y1 - 1, math.random() < 0.5)
-        assign(x2 + 1, y2 + 1, math.random() < 0.5)
+        local v = values
+        if (v[key(x1, y1)] == v[key(x1, y1 - 1)]) and (v[key(x1, y1)] == v[key(x1 - 1, y1)]) then
+            assign(x1 - 1, y1 - 1, not v[key(x1, y1)])
+        else
+            assign(x1 - 1, y1 - 1, math.random() < 0.5)
+        end
+        if (v[key(x1, y2)] == v[key(x1, y2 + 1)]) and (v[key(x1, y2)] == v[key(x1 - 1, y2)]) then
+            assign(x1 - 1, y2 + 1, not v[key(x1, y2)])
+        else
+            assign(x1 - 1, y2 + 1, math.random() < 0.5)
+        end
+        if (v[key(x2, y1)] == v[key(x2, y1 - 1)]) and (v[key(x2, y1)] == v[key(x2 + 1, y1)]) then
+            assign(x2 + 1, y1 - 1, not v[key(x2, y1)])
+        else
+            assign(x2 + 1, y1 - 1, math.random() < 0.5)
+        end
+        if (v[key(x2, y2)] == v[key(x2, y2 + 1)]) and (v[key(x2, y2)] == v[key(x2 + 1, y2)]) then
+            assign(x2 + 1, y2 + 1, not v[key(x2, y2)])
+        else
+            assign(x2 + 1, y2 + 1, math.random() < 0.5)
+        end
 
         x1 = x1 - 1
         x2 = x2 + 1
