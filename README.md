@@ -73,6 +73,11 @@ information.
 The screenshot of the example maze1 output is from an earlier version that did not guarantee
 that no 2x2 chunks of land or water were generated.
 
+## Versions
+ * 0.0.2 Improved islands pattern, added no water option, added half and quarter plane options,
+ added translate filter
+ * 0.0.1 Initial release
+
 ## License
 
 MIT license
