@@ -6,7 +6,12 @@ require "patterns"
         Configuration (information below)
 ]]
 
--- local start_with_car = true
+local extra_options = {
+    start_with_car = false,
+    disable_water = false,
+    big_scans = false
+}
+
 local watercolor = "blue"
 
 local pattern
@@ -17,7 +22,7 @@ local pattern
 -- pattern = cross()
 -- pattern = comb()
 -- pattern = grid()
--- pattern = islands(32, 96)        -- Do not use chunkify with this
+-- pattern = islands(64, 64, 2)     -- Do not use chunkify with this
 -- pattern = island(32)             -- Do not use chunkify with this
 -- pattern = roundisland(32)        -- Do not use chunkify with this
 
@@ -57,9 +62,11 @@ pattern = add_land_boundary(pattern, watercolor)
         problems when exploring new territory far from the origin. This is especially true
         if your chunkify parameter is low.
 
-        You can combine patterns with
+        You can modify patterns with
             union(pattern1, pattern2)
             intersection(pattern1, pattern2)
+            translate(pattern, dx, dy) -- dx, dy must be integers
+            chunkify(pattern, factor) -- factor need not be integer
         For example, unioning with an island pattern guarantees a large land area at the origin.
 
         Second, optionally pass it through "chunkify" to change the resolution of the pattern.
@@ -90,6 +97,18 @@ function db(s)
     msg = msg + 1
 end
 
+local function scan_near_player(player, radius)
+    local x = player.position.x
+    local y = player.position.y
+    player.force.chart(player.surface, {{x - radius, y - radius}, {x + radius, y + radius}})
+end
+
+local function on_tick(event)
+    if (event.tick % 600) == 0 then
+        scan_near_player(game.players[1], 200)
+    end
+end
+
 -- Get a string representation of the original pattern used when this game was first
 -- created so that it preserves the original configuration even if changes were made later.
 local function on_load(event)
@@ -101,12 +120,21 @@ local function on_load(event)
             original_pattern = (load(s))()
         end
     end
+    extra_options = global.extra_options or {}
+    if extra_options.big_scans then
+        script.on_event(defines.events.on_tick, on_tick)
+    end
+    if extra_options.disable_water then
+        script.on_event(defines.events.on_chunk_generated, nil)
+    end
 end
 
 -- Save a string representation of the pattern being used in the save file
 local function on_init(event)
     original_pattern = pattern.get
     global.pattern_lua = pattern.lua
+    global.extra_options = extra_options
+    on_load(nil)
 end
 
 local function make_chunk(event)
@@ -140,21 +168,9 @@ end
 
 local function player_created(event)
     local player = game.get_player(event.player_index)
-    if start_with_car then
-        player.character.insert{name = "coal", count = 1000}
+    if extra_options.start_with_car then
+        player.character.insert{name = "coal", count = 50}
         player.character.insert{name = "car", count = 1}
-    end
-end
-
-local function scan_near_player(player, radius)
-    local x = player.position.x
-    local y = player.position.y
-    player.force.chart(player.surface, {{x - radius, y - radius}, {x + radius, y + radius}})
-end
-
-local function on_tick(event)
-    if (event.tick % 600) == 0 then
-        scan_near_player(game.players[1], 200)
     end
 end
 
@@ -162,4 +178,3 @@ script.on_init(on_init)
 script.on_load(on_load)
 script.on_event(defines.events.on_chunk_generated, make_chunk)
 script.on_event(defines.events.on_player_created, player_created)
--- script.on_event(defines.events.on_tick, on_tick)

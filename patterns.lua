@@ -31,20 +31,21 @@ function grid()
     return {get = get2, lua = 'grid()'}
 end
 
-function islands(islandhalfradius, islandhalfsep)
-    local r = islandhalfradius or 16
-    local n = islandhalfsep or 64
+function islands(islandradius, pathlength, pathwidth)
+    local r = islandradius or 32
+    local k = pathlength or 64
+    local w = pathwidth or 2
+    local n = 2 * r + w + k
     local function get(x, y)
-        x = x % n
-        y = y % n
-        if (x == 0) or (y == 0) then
+        x = (x + 1) % n
+        y = (y + 1) % n
+        if (x < 2 * r + w) and (y < 2 * r + w) then
             return true
         else
-            return ((x - 1 < r) or (x + r > n)) and ((y - 1 < r) or (y + r > n))
+            return ((x >= r) and (x < r + w)) or ((y >= r) and (y < r + w))
         end
     end
-    local get2 = chunkify({get = get, lua = 'nil'}, 2).get
-    return {get = get2, lua = 'islands(' .. r .. ', ' .. n .. ')'}
+    return {get = get, lua = 'islands(' .. r .. ', ' .. k .. ', ' .. w .. ')'}
 end
 
 function chunkify(pattern, n)
@@ -104,6 +105,20 @@ function roundisland(radius)
     return {get = get, lua = 'roundisland(' .. r .. ')'}
 end
 
+function halfplane()
+    local function get(x, y)
+        return (x >= -1)
+    end
+    return {get = get, lua = 'halfplane()'}
+end
+
+function quarterplane()
+    local function get(x, y)
+        return (x >= -1) and (y >= -1)
+    end
+    return {get = get, lua = 'quarterplane()'}
+end
+
 function union(p1, p2)
     local p1get = p1.get
     local p2get = p2.get
@@ -120,6 +135,14 @@ function intersection(p1, p2)
         return p1get(x, y) and p2get(x, y)
     end
     return {get = get, lua = 'intersection(' .. p1.lua .. ', ' .. p2.lua .. ')'}
+end
+
+function translate(p, dx, dy)
+    local pget = p.get
+    local function get(x, y)
+        return p.get(x - dx, y - dy)
+    end
+    return {get = get, lua = 'translate(' .. p.lua .. ', ' .. dx .. ', ' .. dy .. ')'}
 end
 
 function safety(pattern)
