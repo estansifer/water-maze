@@ -21,14 +21,6 @@ function water_autoplace_settings(from_depth, rectangles)
   return { peaks = ret }
 end
 
-print(data)
-print(data.raw)
-print(data.raw.tile)
-
-for a, b in pairs(data.raw) do
-    print ('   ' .. tostring(a) .. ' ' .. tostring(b))
-end
-
 local t = data.raw.tile
 local x = water_autoplace_settings(10000)
 

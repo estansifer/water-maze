@@ -22,11 +22,9 @@ This mod changes the distribution of land and water at the start of a new game.
  to have multiple concurrent games going on with different settings. This also allows multiplayer
  to work even if different players have different settings active (host's settings dominate).
  Also this mod should have no effect if the game was started with it disabled.
- * The map setting for water size does not have a direct effect on the game. If Factorio spawns
- water at a location where this mod wishes to place land, it will be replaced with grass; so
- any large featureless expanses of grass can be thought of as ancient lake beds. The map
- setting for water does affect the distribution of dry/wet biomes and in particular the amount
- of trees, neither of which the mod modifies.
+ * The map setting for water size does not have a direct effect on the game. The map setting
+ for water does affect the distribution of dry/wet biomes and in particular the amount of
+ trees, neither of which the mod modifies.
  * You can choose between blue and green water!
  * This mod should be considered unstable and may contain bugs. In particular, version changes
  are likely to be incompatible; I suggest completing any games started with an earlier version
