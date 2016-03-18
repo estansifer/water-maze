@@ -105,7 +105,10 @@ end
 
 local function on_tick(event)
     if (event.tick % 600) == 0 then
-        scan_near_player(game.players[1], 200)
+        local ps = game.players
+        if (ps ~= nil) and (ps[1] ~= nil) then
+            scan_near_player(ps[1], 200)
+        end
     end
 end
 
