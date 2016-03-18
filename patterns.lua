@@ -33,16 +33,18 @@ end
 
 function islands(islandradius, pathlength, pathwidth)
     local r = islandradius or 32
-    local k = pathlength or 64
+    local k = pathlength or 48
     local w = pathwidth or 2
     local n = 2 * r + w + k
     local function get(x, y)
-        x = (x + 1) % n
-        y = (y + 1) % n
-        if (x < 2 * r + w) and (y < 2 * r + w) then
+        x = x % n
+        y = y % n
+        if (x < w) or (y < w) then
             return true
         else
-            return ((x >= r) and (x < r + w)) or ((y >= r) and (y < r + w))
+            x = (x + r) % n
+            y = (y + r) % n
+            return (x < 2 * r + w) and (y < 2 * r + w)
         end
     end
     return {get = get, lua = 'islands(' .. r .. ', ' .. k .. ', ' .. w .. ')'}
