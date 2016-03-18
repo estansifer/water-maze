@@ -6,6 +6,10 @@ Hosted at `https://github.com/estansifer/water-maze/`
 
 This mod changes the distribution of land and water at the start of a new game.
 
+A variety of terrain generation algorithms are included in the mod, and they can be fully
+configured by editing control.lua. By default, the mod generates an infinite maze with path
+width 32. This mod can also be used to remove all water from the game.
+
 ## Important Notes
 
  * To configure the mod, edit the configuration section at the top of `control.lua`. There
@@ -30,6 +34,7 @@ This mod changes the distribution of land and water at the start of a new game.
  are likely to be incompatible; I suggest completing any games started with an earlier version
  of the mod before upgrading.
  * Mod has been tested on multiplayer.
+ * The `islands` pattern with a path width of 2 does align with railroad tracks properly.
 
 ## Unimportant Notes
 
@@ -74,6 +79,8 @@ The screenshot of the example maze1 output is from an earlier version that did n
 that no 2x2 chunks of land or water were generated.
 
 ## Versions
+ * 0.0.4 Rewrote islands pattern again to align it with railroad tracks in case of path width of 2.
+ * 0.0.3 Bug fix with `big_scans` option in multiplayer
  * 0.0.2 Improved islands pattern, added no water option, added half and quarter plane options,
  added translate filter
  * 0.0.1 Initial release
