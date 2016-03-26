@@ -2,7 +2,7 @@ local uf = require "union-find"
 
 local append = table.insert
 
-local function maze1()
+function Maze1()
     -- Small adjustment to connectedness of land. Values from 0 to 1 ok.
     local connectedness = 0.4
 
@@ -218,5 +218,3 @@ local function maze1()
 
     return {get = get, lua = 'maze1()'}
 end
-
-return maze1

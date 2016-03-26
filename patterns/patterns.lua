@@ -1,6 +1,6 @@
-maze1 = require "maze1"
-maze2 = require "diffusion"
-maze3 = require "percolation"
+require "maze1"
+require "maze2"
+require "maze3"
 
 function cross(halfwidth)
     local n = halfwidth or 1
