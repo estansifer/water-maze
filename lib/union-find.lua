@@ -1,7 +1,5 @@
-local uf = {}
-
-local function create (p)
-    local parents = p or {}
+function UnionFind(data)
+    local parents = data or {}
     local function get(key)
         p = parents[key]
         if p == nil or p == key then
@@ -25,12 +23,10 @@ local function create (p)
     local function same(k1, k2)
         return get(k1) == get(k2)
     end
-    local function get_parents()
-        return parents
-    end
-    return {get = get, union = union, same = same, get_parents = get_parents}
+    return {
+        get = get,
+        union = union,
+        same = same,
+        data = parents -- live access to data for serializing purposes
+    }
 end
-
-uf.create = create
-
-return uf

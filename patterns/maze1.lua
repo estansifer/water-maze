@@ -1,4 +1,4 @@
-local uf = require "union-find"
+require "union-find"
 
 local append = table.insert
 
@@ -14,34 +14,64 @@ function Maze1()
     }
     local fibs = {1, 2, 3, 5, 8, 13, 21, 34, 55}
 
-    if global.maze1 == nil then
-        global.maze1 = {
-            values          = {},
-            group_parents   = nil,
-            x1              = -1,
-            y1              = -1,
-            x2              = 0,
-            y2              = 0
-        }
-    end
-    local values            = global.maze1.values
-    local group             = uf.create(global.maze1.group_parents)
-    local x1                = global.maze1.x1
-    local x2                = global.maze1.x2
-    local y1                = global.maze1.y1
-    local y2                = global.maze1.y2
-
-    local function save()
-        global.maze1.group_parents = group.get_parents()
-        global.maze1.x1 = x1
-        global.maze1.x2 = x2
-        global.maze1.y1 = y1
-        global.maze1.y2 = y2
-    end
+    local data
+    local values
+    local group
+    local x1, y1, x2, y2
 
     local function key(x, y)
         return x .. '#' .. y
     end
+
+    local function assign(x, y, value)
+        local k = key(x, y)
+        values[k] = value
+
+        for _, d in ipairs(dirs) do
+            local k2 = key(x + d.dx, y + d.dy)
+            if value == values[k2] then
+                group.union(k, k2)
+            end
+        end
+    end
+
+    -- Needs to be called any time these values have been changed
+    local function resync() {
+        data.x1 = x1
+        data.y1 = y1
+        data.x2 = x2
+        data.y2 = y2
+    }
+
+    local function create() {
+        values = {}
+        group = UnionFind()
+        data = {
+            values          = values,
+            group_data      = group.data
+        }
+        x1 = -1
+        y1 = -1
+        x2 = 0
+        y2 = 0
+        resync()
+        assign(0, 0, true)
+        assign(-1, 0, true)
+        assign(0, -1, true)
+        assign(-1, -1, true)
+
+        return data
+    }
+
+    local function reload(d) {
+        data = d
+        values = data.values
+        group = UnionFind(data.group_data)
+        x1 = data.x1
+        y1 = data.y1
+        x2 = data.x2
+        y2 = data.y2
+    }
 
     local function fibdigits(n, k)
         local ans = {}
@@ -62,27 +92,13 @@ function Maze1()
         return math.floor(math.random() * fibs[n + 1])
     end
 
-    local function assign(x, y, value)
-        local k = key(x, y)
-        values[k] = value
-
-        for _, d in ipairs(dirs) do
-            local k2 = key(x + d.dx, y + d.dy)
-            if value == values[k2] then
-                group.union(k, k2)
-            end
-        end
-    end
-
     local function expand()
-        -- db ('expand x1 = ' .. x1 .. ', y1 = ' .. y1)
         local a = {}
 
         for x = x1, x2 do
             local k = key(x, y1)
             local p = {x = x, y = y1 - 1}
             local b = a[group.get(k)]
-            -- db (x .. ' ' .. y1 .. ' ' .. tostring(values[k]) .. ' ' .. tostring(values[key(x - 1, y1)]))
             if values[k] == values[key(x - 1, y1)] then
                 append(b[#b], p)
             else
@@ -193,7 +209,7 @@ function Maze1()
         x2 = x2 + 1
         y1 = y1 - 1
         y2 = y2 + 1
-        save()
+        resync()
     end
 
     local function get(x, y)
@@ -208,13 +224,10 @@ function Maze1()
         end
     end
 
-    if values[key(0, 0)] == nil then
-        assign(0, 0, true)
-        assign(-1, 0, true)
-        assign(0, -1, true)
-        assign(-1, -1, true)
-        save()
-    end
-
-    return {get = get, lua = 'maze1()'}
+    return {
+        create = create,
+        reload = reload,
+        get = get,
+        lua = 'Maze1()'
+    }
 end

@@ -1,5 +1,4 @@
-local function maze3()
-    local num_attempts = 0
+function Maze3()
     local max_attempts = 1000
     local initial_range = 100
 
@@ -9,20 +8,7 @@ local function maze3()
     -- https://en.wikipedia.org/wiki/Percolation_threshold
     local threshhold = 0.6
 
-    local values
-
-    local function new()
-        global.maze3 = {
-            values = {}
-        }
-        values = global.maze3.values
-    end
-
-    if global.maze3 == nil then
-        new()
-    else
-        values = global.maze3.values
-    end
+    local data
 
     local function compute(x, y)
         if x > -2 and x < 1 and y > -2 and y < 1 then
@@ -33,10 +19,10 @@ local function maze3()
 
     local function get(x, y)
         local key = x .. '#' .. y
-        if values[key] == nil then
-            values[key] = compute(x, y)
+        if data.values[key] == nil then
+            data.values[key] = compute(x, y)
         end
-        return values[key]
+        return data.values[key]
     end
 
     local function floodfill(visited, x, y)
@@ -73,18 +59,25 @@ local function maze3()
         return left and right and top and bottom
     end
 
-    local function initialize()
+    local function create()
+        data = {}
+        local num_attempts = 0
         repeat
-            new()
+            data.values = {}
             num_attempts = num_attempts + 1
         until verify_ok() or num_attempts >= max_attempts
+
+        return data
     end
 
-    if values['0#0'] == nil then
-        initialize()
+    local function reload(d)
+        data = d
     end
 
-    return {get = get, lua = 'maze3()'}
+    return {
+        create = create,
+        reload = reload,
+        get = get,
+        lua = 'Maze3()'
+    }
 end
-
-return maze3

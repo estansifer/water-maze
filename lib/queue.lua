@@ -1,6 +1,4 @@
-local queue = {}
-
-local function empty ()
+function Queue()
     local elems = {}
     local head = 1
     local tail = 1
@@ -17,9 +15,9 @@ local function empty ()
     local function size()
         return tail - head
     end
-    return {push = push, pop = pop, size = size}
+    return {
+        push = push,
+        pop = pop,
+        size = size
+    }
 end
-
-queue.empty = empty
-
-return queue

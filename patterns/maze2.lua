@@ -1,31 +1,15 @@
-local queue = require "queue"
+require "queue"
 
 -- Based on Wilson's algorithm
-local function maze2()
+function Maze2()
     local dirs = {
         {dx = 1, dy = 0},
         {dx = -1, dy = 0},
         {dx = 0, dy = 1},
         {dx = 0, dy = -1}
     }
-    if global.maze2 == nil then
-        global.maze2 = {
-            land            = {},
-            nearland        = {},
-            nearishland     = {},
-            pending         = {},
-            pendingsum      = 0,
-            pendingr        = 0,
-            nearest         = 0
-        }
-    end
-    local land              = global.maze2.land
-    local nearland          = global.maze2.nearland
-    local nearishland       = global.maze2.nearishland
-    local pending           = global.maze2.pending
-    local pendingsum        = global.maze2.pendingsum
-    local pendingr          = global.maze2.pendingr
-    local nearest           = global.maze2.nearest
+
+    local data
 
     local function key(x, y)
         -- Fuck you, Lua! Took me an hour to debug this. Without the following lines, the
@@ -41,22 +25,40 @@ local function maze2()
     end
 
     local function makeland(x, y)
-        land[key(x, y)] = true
-        nearland[key(x, y)] = true
-        nearland[key(x - 1, y)] = true
-        nearland[key(x + 1, y)] = true
-        nearland[key(x, y - 1)] = true
-        nearland[key(x, y + 1)] = true
-        nearishland[key(x - 1, y - 1)] = true
-        nearishland[key(x + 1, y - 1)] = true
-        nearishland[key(x - 1, y + 1)] = true
-        nearishland[key(x + 1, y + 1)] = true
+        data.land[key(x, y)] = true
+        data.nearland[key(x, y)] = true
+        data.nearland[key(x - 1, y)] = true
+        data.nearland[key(x + 1, y)] = true
+        data.nearland[key(x, y - 1)] = true
+        data.nearland[key(x, y + 1)] = true
+        data.nearishland[key(x - 1, y - 1)] = true
+        data.nearishland[key(x + 1, y - 1)] = true
+        data.nearishland[key(x - 1, y + 1)] = true
+        data.nearishland[key(x + 1, y + 1)] = true
     end
 
-    makeland(0, 0)
-    makeland(-1, 0)
-    makeland(0, -1)
-    makeland(-1, -1)
+    local function create()
+        data = {
+            land            = {},
+            nearland        = {},
+            nearishland     = {},
+            pending         = {},
+            pendingsum      = 0,
+            pendingr        = 0,
+            nearest         = 0
+        }
+
+        makeland(0, 0)
+        makeland(-1, 0)
+        makeland(0, -1)
+        makeland(-1, -1)
+
+        return data
+    end
+
+    local function reload(d)
+        data = d
+    end
 
     local function weight(x, y)
         return 1 / math.sqrt(math.abs(x * x) + math.abs(y * y) + 4)
@@ -64,55 +66,46 @@ local function maze2()
 
     local function impend(x, y)
         local k = key(x, y)
-        if (not nearishland[k]) and (not nearland[k]) and (pending[k] == nil) then
+        if (not data.nearishland[k]) and (not data.nearland[k]) and (data.pending[k] == nil) then
             local w = weight(x, y)
-            -- db('Adding ' .. k)
-            pending[k] = {x = x, y = y, w = w}
-            pendingsum = pendingsum + w
-            if x * x + y * y < nearest * nearest then
-                nearest = math.sqrt(x * x + y * y)
+            data.pending[k] = {x = x, y = y, w = w}
+            data.pendingsum = data.pendingsum + w
+            if x * x + y * y < data.nearest then
+                data.nearest = x * x + y * y
             end
         end
-
-        global.maze2.pendingsum = pendingsum
-        global.maze2.nearest = nearest
     end
 
     local function update_pending()
-        for k, _ in pairs(pending) do
-            if nearishland[k] or nearland[k] then
-                pending[k] = nil
+        for k, _ in pairs(data.pending) do
+            if data.nearishland[k] or data.nearland[k] then
+                data.pending[k] = nil
             end
         end
 
-        pendingsum = 0
-        local count = 0
-        nearest = 1000000000
-        for _, v in pairs(pending) do
-            count = count + 1
-            pendingsum = pendingsum + v.w
+        local sum = 0
+        local nearest = 1000000000
+        for _, v in pairs(data.pending) do
+            sum = sum + v.w
             local n = v.x * v.x + v.y * v.y
             if n < nearest then
                 nearest = n
             end
         end
-        nearest = math.sqrt(nearest)
+        data.pendingsum = sum
+        data.nearest = nearest
 
         local n = pendingr
-        while pendingsum < 5 do
+        while data.pendingsum < 5 do
             for i = -n, n do
                 impend(i, -n)
                 impend(i, n)
                 impend(-n, i)
                 impend(n, i)
             end
-            pendingr = pendingr + 1
-            n = pendingr
+            n = n + 1
+            data.pendingr = n
         end
-
-        global.maze2.pendingsum = pendingsum
-        global.maze2.pendingr = pendingr
-        global.maze2.nearest = nearest
     end
 
     local function random_direction(x, y)
@@ -136,7 +129,7 @@ local function maze2()
     end
 
     local function fill_shortest_path(path, x, y)
-        local q = queue.empty()
+        local q = Queue()
         local visited = {}
 
         q.push({x = x, y = y})
@@ -146,7 +139,7 @@ local function maze2()
             local k = key(p.x, p.y)
             if path[k] and (visited[k] == nil) then
                 visited[k] = true
-                if nearland[k] then
+                if data.nearland[k] then
                     break
                 end
                 for _, d in pairs(dirs) do
@@ -162,7 +155,6 @@ local function maze2()
     end
 
     local function diffuse_from(x, y)
-        -- db ('Diffusing ' .. x .. ' ' .. y)
         local n = {}
         local k
         local cx, cy
@@ -170,7 +162,7 @@ local function maze2()
         
         while true do
             k = key(cx, cy)
-            if nearland[k] then
+            if data.nearland[k] then
                 break
             end
             d = random_direction(cx, cy)
@@ -191,9 +183,9 @@ local function maze2()
 
     local function diffuse()
         update_pending()
-        r = math.random() * pendingsum
+        r = math.random() * data.pendingsum
 
-        for k, v in pairs(pending) do
+        for k, v in pairs(data.pending) do
             r = r - v.w
             if r < 0 then
                 diffuse_from(v.x, v.y)
@@ -203,13 +195,16 @@ local function maze2()
     end
 
     local function get(x, y)
-        while math.sqrt(x * x + y * y) + 5 > nearest do
+        while math.sqrt(x * x + y * y) + 5 > math.sqrt(data.nearest) do
             diffuse()
         end
-        return land[key(x, y)] == true
+        return data.land[key(x, y)] == true
     end
 
-    return {get = get, lua = 'maze2()'}
+    return {
+        create = create,
+        reload = reload,
+        get = get,
+        lua = 'Maze2()'
+    }
 end
-
-return maze2
