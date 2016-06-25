@@ -6,6 +6,14 @@ local function noop()
     return nil
 end
 
+function Strip(halfwidth)
+    local n = halfwidth or 1
+    local function get(x, y)
+        return (y >= -n and y < n)
+    end
+    return {create = noop, reload = noop, get = get, lua = 'Strip(' .. n .. ')'}
+end
+
 function Cross(halfwidth)
     local n = halfwidth or 1
     local function get(x, y)
@@ -36,8 +44,9 @@ end
 
 -- 'ratio' is the ratio of the distance of consecutive spirals from the center
 -- 'land' is the proportion of terrain that is land
+-- Use the reciprocal of some ratio to make the spiral go the other way
 function Spiral(ratio, land)
-    local r = ratio or 1.6
+    local r = ratio or 1.4
     local l = land or 0.5
     local lr = math.log(r)
     local function get(x, y)
@@ -49,7 +58,7 @@ function Spiral(ratio, land)
             -- change in arctan between 5.2 and 5.3 that makes it impossible
             -- to write code that is correct in both versions. We are using
             -- 5.2 here.
-            return (((math.atan2(y, x) / math.pi) + (math.log(n) / lr)) % 2) < (land * 2)
+            return (((math.atan2(y, x) / math.pi) + (math.log(n) / lr)) % 2) < (l * 2)
         end
     end
     return {create = noop, reload = noop, get = get, lua = 'Spiral(' .. r .. ',' .. l .. ')'}
@@ -58,7 +67,7 @@ end
 -- 'ratio' is the ratio of the distance of consecutive circles from the center
 -- 'land' is the proportion of terrain that is land
 function ConcentricCircles(ratio, land)
-    local r = ratio or 1.6
+    local r = ratio or 1.4
     local l = land or 0.5
     local lr2 = 2 * math.log(r)
     local function get(x, y)
@@ -135,7 +144,7 @@ function Islandify(pattern, islandradius, pathlength, pathwidth)
 end
 
 function Zoom(pattern, f)
-    local factor = n or 16
+    local factor = f or 16
     local pattern_get = pattern.get
 
     local function create()

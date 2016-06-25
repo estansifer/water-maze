@@ -6,8 +6,15 @@ require "patterns/patterns"
 
 local watercolor = "blue"
 
-local pattern = Zoom(Maze2(), 32)
--- local pattern = Islandify(Maze2(), 64, 64, 4)
+local pattern = Zoom(Maze2(), 16)
+-- You might want to change the 16 above to a larger number to make it more playable
+
+-- Some fun patterns!:
+-- local pattern = Islandify(Maze3(), 16, 8, 4)
+-- local pattern = Union(Zoom(Cross(), 16), ConcentricCircles(1.3))
+-- local pattern = Intersection(Zoom(Maze3(), 32), Zoom(Grid(), 2))
+-- local pattern = Union(Spiral(1.8, 0.6), Intersection(Zoom(Maze3(), 16), Zoom(Grid(), 2)))
+-- local pattern = Union(Union(Zoom(Maze3(0.2, false), 31), Zoom(Maze3(0.05, false), 57)), Zoom(Maze3(0.6), 8))
 
 config = {
     start_with_car      = false,
@@ -20,13 +27,16 @@ config = {
 -- pattern = Maze1()
 -- pattern = Maze2()                -- This is the best of the three maze algorithms
 -- pattern = Maze3()
+-- pattern = Strip()
 -- pattern = Cross()
 -- pattern = Comb()
 -- pattern = Grid()
--- pattern = Spiral(1.6, 0.5)       -- Zoom is not necessary with this
--- pattern = ConcentricCircles(1.6, 0.5)        -- Zoom is not necessary with this
+-- pattern = Spiral(1.5, 0.5)       -- Zoom is not necessary with this
+-- pattern = ConcentricCircles(1.5, 0.5)        -- Zoom is not necessary with this
 -- pattern = Island(32)             -- Zoom is not necessary with this
 -- pattern = Roundisland(32)        -- Zoom is not necessary with this
+-- pattern = Halfplane()            -- Zoom is not necessary with this
+-- pattern = Quarterplane()         -- Zoom is not necessary with this
 -- pattern = Islands(64, 64, 4)     -- Zoom is not necessary with this
 -- pattern = Islandify(pattern, 64, 64, 4) -- Zoom is not necessary with this
 -- pattern = Union(pattern1, pattern2)
@@ -49,12 +59,15 @@ config = {
                 maze algorithms.
             Maze3 -- a simple algorithm that gives very irregular and random shapes. It is
                 related to percolation theory.
+            Strip
             Cross
             Comb
             Grid
             Islands
             Island -- makes a single island of the specified radius (don't use)
             Roundisland -- makes a single island of the specified radius (don't use)
+            Halfplane
+            Quarterplane
 
         For Maze2 (and to a much lesser extent with Maze1) you may run into performance
         problems when exploring new territory far from the origin. This is especially true

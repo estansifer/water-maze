@@ -1,4 +1,8 @@
-function Maze3()
+function Maze3(t, v)
+    if v == nil then
+        v = true
+    end
+
     local max_attempts = 1000
     local initial_range = 100
 
@@ -6,7 +10,14 @@ function Maze3()
     -- values greater than 0.59274621 are fine
     -- lower than that is bad
     -- https://en.wikipedia.org/wiki/Percolation_threshold
-    local threshhold = 0.6
+    local criticalvalue = 0.59274621
+    local threshhold = t or 0.6
+    local verify = v
+
+    -- Safeguard to make sure we don't try to do the impossible
+    if (threshhold < criticalvalue + 0.001) and verify then
+        threshhold = 0.6
+    end
 
     local data
 
@@ -40,6 +51,10 @@ function Maze3()
     end
 
     local function verify_ok()
+        if not verify then
+            return true
+        end
+
         local n = initial_range
         local visited = {}
         for x = -n, n do
@@ -78,6 +93,6 @@ function Maze3()
         create = create,
         reload = reload,
         get = get,
-        lua = 'Maze3()'
+        lua = 'Maze3(' .. threshhold .. ',' .. tostring(verify) .. ')'
     }
 end
