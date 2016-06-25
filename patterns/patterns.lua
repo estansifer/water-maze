@@ -66,7 +66,7 @@ function ConcentricCircles(ratio, land)
         if n < 100 then
             return true
         else
-            return ((math.log(n) / lr2) % 1) < land
+            return ((math.log(n) / lr2) % 1) < l
         end
     end
     return {create = noop, reload = noop, get = get, lua = 'ConcentricCircles(' .. r .. ',' .. l .. ')'}
