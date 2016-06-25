@@ -34,6 +34,23 @@ function Grid()
     return {create = noop, reload = noop, get = get, lua = 'Grid()'}
 end
 
+function Spiral(ratio)
+    local r = ratio or 1.2
+    local lr = math.log(r)
+    local function get(x, y)
+        local n = (x * x) + (y * y)
+        if n < 100 then
+            return true
+        else
+            -- Very irritatingly Lua makes a backwards incompatible
+            -- change in arctan between 5.2 and 5.3 that makes it impossible
+            -- to write code that is correct in both versions. We are using
+            -- 5.2 here.
+            return (((math.atan2(y, x) / math.pi) + (math.log(n) / lr)) % 2) == 0
+        end
+    end
+    return {create = noop, reload = noop, get = get, lua = 'Spiral(' .. r .. ')'}
+
 function Islands(islandradius, pathlength, pathwidth)
     local r = islandradius or 32
     local k = pathlength or 48
@@ -271,7 +288,3 @@ function Translate(pattern, dx, dy)
         lua = 'Translate(' .. pattern.lua .. ', ' .. dx .. ', ' .. dy .. ')'
     }
 end
-
--- function safety(pattern)
-    -- return union(pattern, island(1))
--- end

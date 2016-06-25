@@ -36,14 +36,14 @@ function Maze1()
     end
 
     -- Needs to be called any time these values have been changed
-    local function resync() {
+    local function resync()
         data.x1 = x1
         data.y1 = y1
         data.x2 = x2
         data.y2 = y2
-    }
+    end
 
-    local function create() {
+    local function create()
         values = {}
         group = UnionFind()
         data = {
@@ -61,9 +61,9 @@ function Maze1()
         assign(-1, -1, true)
 
         return data
-    }
+    end
 
-    local function reload(d) {
+    local function reload(d)
         data = d
         values = data.values
         group = UnionFind(data.group_data)
@@ -71,7 +71,7 @@ function Maze1()
         y1 = data.y1
         x2 = data.x2
         y2 = data.y2
-    }
+    end
 
     local function fibdigits(n, k)
         local ans = {}
@@ -225,9 +225,9 @@ function Maze1()
     end
 
     return {
-        create = create,
-        reload = reload,
-        get = get,
-        lua = 'Maze1()'
-    }
+            create = create,
+            reload = reload,
+            get = get,
+            lua = 'Maze1()'
+        }
 end

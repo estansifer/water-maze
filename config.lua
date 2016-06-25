@@ -4,19 +4,9 @@ require "patterns/patterns"
         Configuration (information below)
 ]]
 
-local extra_options = {
-    start_with_car = false,
-    disable_water = false,
-    big_scans = false
-}
-
 local watercolor = "blue"
 
-local pattern
-
-pattern = Maze2()
-
-pattern = Zoom(pattern, 32)
+local pattern = Zoom(Maze2(), 32)
 
 config = {
     start_with_car      = false,
@@ -85,4 +75,3 @@ config = {
         corresponds to land and "false" corresponds to water, and that all segments of land and
         water are at least two tiles wide.
 ]]
-
