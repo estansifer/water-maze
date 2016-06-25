@@ -34,8 +34,11 @@ function Grid()
     return {create = noop, reload = noop, get = get, lua = 'Grid()'}
 end
 
-function Spiral(ratio)
-    local r = ratio or 1.2
+-- 'ratio' is the ratio of the distance of consecutive spirals from the center
+-- 'land' is the proportion of terrain that is land
+function Spiral(ratio, land)
+    local r = ratio or 1.6
+    local l = land or 0.5
     local lr = math.log(r)
     local function get(x, y)
         local n = (x * x) + (y * y)
@@ -46,10 +49,27 @@ function Spiral(ratio)
             -- change in arctan between 5.2 and 5.3 that makes it impossible
             -- to write code that is correct in both versions. We are using
             -- 5.2 here.
-            return (((math.atan2(y, x) / math.pi) + (math.log(n) / lr)) % 2) == 0
+            return (((math.atan2(y, x) / math.pi) + (math.log(n) / lr)) % 2) < (land * 2)
         end
     end
-    return {create = noop, reload = noop, get = get, lua = 'Spiral(' .. r .. ')'}
+    return {create = noop, reload = noop, get = get, lua = 'Spiral(' .. r .. ',' .. l .. ')'}
+end
+
+-- 'ratio' is the ratio of the distance of consecutive circles from the center
+-- 'land' is the proportion of terrain that is land
+function ConcentricCircles(ratio, land)
+    local r = ratio or 1.6
+    local l = land or 0.5
+    local lr2 = 2 * math.log(r)
+    local function get(x, y)
+        local n = (x * x) + (y * y)
+        if n < 100 then
+            return true
+        else
+            return ((math.log(n) / lr2) % 1) < land
+        end
+    end
+    return {create = noop, reload = noop, get = get, lua = 'ConcentricCircles(' .. r .. ',' .. l .. ')'}
 end
 
 function Islands(islandradius, pathlength, pathwidth)
