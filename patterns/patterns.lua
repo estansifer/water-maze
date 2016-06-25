@@ -50,6 +50,7 @@ function Spiral(ratio)
         end
     end
     return {create = noop, reload = noop, get = get, lua = 'Spiral(' .. r .. ')'}
+end
 
 function Islands(islandradius, pathlength, pathwidth)
     local r = islandradius or 32

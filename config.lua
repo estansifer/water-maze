@@ -7,6 +7,7 @@ require "patterns/patterns"
 local watercolor = "blue"
 
 local pattern = Zoom(Maze2(), 32)
+-- local pattern = Islandify(Maze2(), 64, 64, 4)
 
 config = {
     start_with_car      = false,
@@ -22,14 +23,14 @@ config = {
 -- pattern = Cross()
 -- pattern = Comb()
 -- pattern = Grid()
--- pattern = Island(32)             -- Do not use zoom with this
--- pattern = Roundisland(32)        -- Do not use zoom with this
--- pattern = Islands(64, 64, 2)     -- Do not use zoom with this
--- pattern = Islandify(pattern, 64, 64, 2) -- Do not use zoom with this
+-- pattern = Island(32)             -- Zoom is not necessary with this
+-- pattern = Roundisland(32)        -- Zoom is not necessary with this
+-- pattern = Islands(64, 64, 4)     -- Zoom is not necessary with this
+-- pattern = Islandify(pattern, 64, 64, 4) -- Zoom is not necessary with this
 -- pattern = Union(pattern1, pattern2)
 -- pattern = Intersection(pattern1, pattern2)
 -- pattern = Zoom(pattern, 10)
--- pattern = TerrainPattern(pattern, watercolor)
+-- pattern = TerrainPattern(pattern, watercolor) -- Use at the end
 
 --[[
         In most configurations, you will want to turn resource generation WAY up, probably to
