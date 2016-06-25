@@ -1,4 +1,4 @@
-require "queue"
+require "lib/queue"
 
 -- Based on Wilson's algorithm
 function Maze2()

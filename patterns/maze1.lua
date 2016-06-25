@@ -1,4 +1,4 @@
-require "union-find"
+require "lib/union-find"
 
 local append = table.insert
 
