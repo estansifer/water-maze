@@ -95,7 +95,7 @@ function Maze2()
         data.pendingsum = sum
         data.nearest = nearest
 
-        local n = pendingr
+        local n = data.pendingr
         while data.pendingsum < 5 do
             for i = -n, n do
                 impend(i, -n)
