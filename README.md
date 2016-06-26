@@ -26,8 +26,8 @@ width 32. This mod can also be used to remove all water from the game.
  generate terrain according to the original settings and ignore the new ones. This allows you
  to have multiple concurrent games going on with different settings. This also allows multiplayer
  to work even if different players have different settings active (host's settings dominate).
- (As of Factorio 0.12.30 this is no longer true, and there is no way around it. You must
- manually synchronize the settings of all participants in a multiplayer game.)
+ (As of Factorio 0.12.30 this multiplayer feature is no longer true, and there is no way around
+ it. You must manually synchronize the settings of all participants in a multiplayer game.)
  * The map setting for water size does not have a direct effect on the game. The map setting
  for water does affect the distribution of dry/wet biomes and in particular the amount of
  trees, neither of which the mod modifies.
