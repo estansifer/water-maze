@@ -12,8 +12,9 @@ width 32. This mod can also be used to remove all water from the game.
 
 ## Important Notes
 
- * To configure the mod, edit the configuration section at the top of `control.lua`. There
- are instructions immediately below the configuration section.
+ * To configure the mod, edit the configuration section at the top of `config.lua`. There
+ are instructions immediately below the configuration section. For more advanced features
+ read the comments in `patterns/patterns.lua` describing the patterns you are interested in.
  * In most configurations, resources are much rarer and harder to reach than in the
  vanilla game. It is strongly recommended to turn resource generation WAY up, probably to
  maximum on size and richness at least. You may also want to turn enemy spawns down.
@@ -25,16 +26,19 @@ width 32. This mod can also be used to remove all water from the game.
  generate terrain according to the original settings and ignore the new ones. This allows you
  to have multiple concurrent games going on with different settings. This also allows multiplayer
  to work even if different players have different settings active (host's settings dominate).
- Also this mod should have no effect if the game was started with it disabled.
+ (As of Factorio 0.12.30 this is no longer true, and there is no way around it. You must
+ manually synchronize the settings of all participants in a multiplayer game.)
  * The map setting for water size does not have a direct effect on the game. The map setting
  for water does affect the distribution of dry/wet biomes and in particular the amount of
  trees, neither of which the mod modifies.
  * You can choose between blue and green water!
- * This mod should be considered unstable and may contain bugs. In particular, version changes
- are likely to be incompatible; I suggest completing any games started with an earlier version
- of the mod before upgrading.
+ * Version changes are likely to be incompatible; I suggest completing any games started with
+ an earlier version of the mod before upgrading.
+ * It is very hard and tedious to thoroughly test this mod, especially the saving/loading
+ and multiplayer of each of the many patterns and pattern combinations. Let me know if you
+ encounter any bugs.
  * Mod has been tested on multiplayer.
- * The `islands` pattern with a path width of 2 does align with railroad tracks properly.
+ * The `SquaresAndBridges` pattern with a bridge width of 2 does align with railroad tracks properly.
 
 ## Unimportant Notes
 
@@ -72,18 +76,35 @@ width 32. This mod can also be used to remove all water from the game.
 [screenshots](https://imgur.com/a/wptLh)
 
 The screenshots show some example terrain generation algorithms possible with this mod; other
-variations are possible. See the configuration section at the top of `control.lua` for more
+variations are possible. See the configuration section at the top of `config.lua` for more
 information.
 
-The screenshot of the example maze1 output is from an earlier version that did not guarantee
-that no 2x2 chunks of land or water were generated.
+Screenshots are from pre-0.0.1.
 
 ## Versions
+ * 0.0.6 Partial re-write. Moved configuration to `config.lua`. Added several new patterns,
+ including Spiral and Islandify. Most patterns renamed more sensibly. Total overhaul of saving
+ and loading to address earlier limitations that made it impossible to load a game saved with
+ certain especially complicated patterns.
+ * 0.0.5 Removed dependency and fixed the version in info.json
  * 0.0.4 Rewrote islands pattern again to align it with railroad tracks in case of path width of 2.
  * 0.0.3 Bug fix with `big_scans` option in multiplayer
  * 0.0.2 Improved islands pattern, added no water option, added half and quarter plane options,
  added translate filter
  * 0.0.1 Initial release
+
+## Known Issues
+
+ * This mod behaves poorly if enabled before loading a save where this mod was initially
+ disabled (it stops generating water). In future versions I might print an alert to notify the
+ user of this problem if it occurs. Unfortunately I can't print an alert to let the user know
+ if they forgot to enable the mod before loading a save. Alternatively this problem could be
+ solved by just deleting data.lua but this will create minor artifacts in resource
+ generation (including trees / rocks / biters / etc.). [Example artifacts](https://imgur.com/a/bxKRP)
+ * As of v 0.12.30, automatic synchronization of configuration files in multiplayer is now
+ impossible. :( You must synchronize your configuration manually. A workaround is to have the
+ host create a new game with the desired configuration, save and close the game, reset your
+ config file to defaults, open the game, and then invite other players to join.
 
 ## License
 
