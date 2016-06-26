@@ -81,10 +81,10 @@ function ConcentricCircles(ratio, land)
     return {create = noop, reload = noop, get = get, lua = 'ConcentricCircles(' .. r .. ',' .. l .. ')'}
 end
 
-function Islands(islandradius, pathlength, pathwidth)
+function SquaresAndBridges(islandradius, bridgelength, bridgewidth)
     local r = islandradius or 32
-    local k = pathlength or 48
-    local w = pathwidth or 2
+    local k = bridgelength or 48
+    local w = bridgewidth or 2
     local n = 2 * r + w + k
     local function get(x, y)
         x = x % n
@@ -97,17 +97,17 @@ function Islands(islandradius, pathlength, pathwidth)
             return (x < 2 * r + w) and (y < 2 * r + w)
         end
     end
-    local lua = 'Islands(' .. r .. ', ' .. k .. ', ' .. w .. ')'
+    local lua = 'SquaresAndBridges(' .. r .. ', ' .. k .. ', ' .. w .. ')'
     return {create = noop, reload = noop, get = get, lua = lua}
 end
 
 -- This pattern is based on an idea and code by Donovan Hawkins:
 -- https://forums.factorio.com/viewtopic.php?f=94&t=21568&start=10#p138292
-function Islandify(pattern, islandradius, pathlength, pathwidth)
+function Islandify(pattern, islandradius, bridgelength, bridgewidth)
     local pattern_get = pattern.get
     local r = islandradius or 32
-    local k = pathlength or 48
-    local w = pathwidth or 2
+    local k = bridgelength or 48
+    local w = bridgewidth or 2
     local n = 2 * r + w + k
 
     local function create()
@@ -216,20 +216,20 @@ function TerrainPattern(pattern, watercolor)
     }
 end
 
-function Island(radius)
+function Square(radius)
     local r = radius or 1
     local function get(x, y)
         return x >= -r and y >= -r and x < r and y < r
     end
-    return {create = noop, reload = noop, get = get, lua = 'Island(' .. r .. ')'}
+    return {create = noop, reload = noop, get = get, lua = 'Square(' .. r .. ')'}
 end
 
-function Roundisland(radius)
+function Circle(radius)
     local r = radius or 32
     local function get(x, y)
         return (x * x) + (y * y) < r * r
     end
-    return {create = noop, reload = noop, get = get, lua = 'Roundisland(' .. r .. ')'}
+    return {create = noop, reload = noop, get = get, lua = 'Circle(' .. r .. ')'}
 end
 
 function Halfplane()

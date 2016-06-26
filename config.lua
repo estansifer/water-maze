@@ -10,11 +10,12 @@ local pattern = Zoom(Maze2(), 16)
 -- You might want to change the 16 above to a larger number to make it more playable
 
 -- Some fun patterns!:
+-- local pattern = SquaresAndBridges(64, 32, 4) -- the most popular pattern, probably
 -- local pattern = Islandify(Maze3(), 16, 8, 4)
 -- local pattern = Union(Zoom(Cross(), 16), ConcentricCircles(1.3))
 -- local pattern = Intersection(Zoom(Maze3(), 32), Zoom(Grid(), 2))
--- local pattern = Union(Spiral(1.8, 0.6), Intersection(Zoom(Maze3(), 16), Zoom(Grid(), 2)))
--- local pattern = Union(Union(Zoom(Maze3(0.2, false), 31), Zoom(Maze3(0.05, false), 57)), Zoom(Maze3(0.6), 8))
+-- local pattern = Union(Spiral(1.6, 0.6), Intersection(Zoom(Maze3(0.5, false), 8), Zoom(Grid(), 2)))
+-- local pattern = Union(Union(Zoom(Maze3(0.25, false), 31), Zoom(Maze3(0.1, false), 97)), Zoom(Maze3(0.6), 11))
 
 config = {
     start_with_car      = false,
@@ -33,11 +34,11 @@ config = {
 -- pattern = Grid()
 -- pattern = Spiral(1.5, 0.5)       -- Zoom is not necessary with this
 -- pattern = ConcentricCircles(1.5, 0.5)        -- Zoom is not necessary with this
--- pattern = Island(32)             -- Zoom is not necessary with this
--- pattern = Roundisland(32)        -- Zoom is not necessary with this
+-- pattern = Square(32)             -- Zoom is not necessary with this
+-- pattern = Circle(32)             -- Zoom is not necessary with this
 -- pattern = Halfplane()            -- Zoom is not necessary with this
 -- pattern = Quarterplane()         -- Zoom is not necessary with this
--- pattern = Islands(64, 64, 4)     -- Zoom is not necessary with this
+-- pattern = SquaresAndBridges(64, 64, 4)     -- Zoom is not necessary with this
 -- pattern = Islandify(pattern, 64, 64, 4) -- Zoom is not necessary with this
 -- pattern = Union(pattern1, pattern2)
 -- pattern = Intersection(pattern1, pattern2)
@@ -63,9 +64,9 @@ config = {
             Cross
             Comb
             Grid
-            Islands
-            Island -- makes a single island of the specified radius (don't use)
-            Roundisland -- makes a single island of the specified radius (don't use)
+            SquaresAndBridges
+            Square
+            Circle
             Halfplane
             Quarterplane
 
