@@ -16,34 +16,16 @@ local pattern = Zoom(Maze2(), 16)
 -- local pattern = Intersection(Zoom(Maze3(), 32), Zoom(Grid(), 2))
 -- local pattern = Union(Spiral(1.6, 0.6), Intersection(Zoom(Maze3(0.5, false), 8), Zoom(Grid(), 2)))
 -- local pattern = Union(Union(Zoom(Maze3(0.25, false), 31), Zoom(Maze3(0.1, false), 97)), Zoom(Maze3(0.6), 11))
+-- local pattern = Union(Barcode(10, 5, 20), Barcode(60, 5, 30))
+-- local pattern = Union(Zoom(JaggedIslands(0.3), 32), Union(Barcode(0, 6, 50), Barcode(90, 6, 50)))
 
 config = {
-    start_with_car      = false,
+    start_with_car      = true,
     disable_water       = false,
-    big_scans           = false,
+    big_scans           = true,
+    check_for_instant_death = true,
     terrain_pattern     = TerrainPattern(pattern, watercolor)
 }
-
--- Possible patterns and pattern combinators:
--- pattern = Maze1()
--- pattern = Maze2()                -- This is the best of the three maze algorithms
--- pattern = Maze3()
--- pattern = Strip()
--- pattern = Cross()
--- pattern = Comb()
--- pattern = Grid()
--- pattern = Spiral(1.5, 0.5)       -- Zoom is not necessary with this
--- pattern = ConcentricCircles(1.5, 0.5)        -- Zoom is not necessary with this
--- pattern = Square(32)             -- Zoom is not necessary with this
--- pattern = Circle(32)             -- Zoom is not necessary with this
--- pattern = Halfplane()            -- Zoom is not necessary with this
--- pattern = Quarterplane()         -- Zoom is not necessary with this
--- pattern = SquaresAndBridges(64, 64, 4)     -- Zoom is not necessary with this
--- pattern = Islandify(pattern, 64, 64, 4) -- Zoom is not necessary with this
--- pattern = Union(pattern1, pattern2)
--- pattern = Intersection(pattern1, pattern2)
--- pattern = Zoom(pattern, 10)
--- pattern = TerrainPattern(pattern, watercolor) -- Use at the end
 
 --[[
         In most configurations, you will want to turn resource generation WAY up, probably to

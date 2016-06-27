@@ -1,6 +1,9 @@
 require "maze1"
 require "maze2"
 require "maze3"
+require "mandelbrot"
+require "jaggedislands"
+require "barcode"
 
 local function noop()
     return nil

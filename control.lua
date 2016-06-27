@@ -46,15 +46,17 @@ local function make_chunk(event)
 
     for x = x1 - k, x2 + k do
         for y = y1 - k, y2 + k do
-            local old = surface.get_tile(x, y).name
-            local new = terrain_pattern_get(x, y)
-            if new == "land" then
-                if old == "water" or old == "deepwater" then
-                    append(tiles, {name = "grass", position = {x, y}})
-                end
-            else
-                if not (new == old) then
-                    append(tiles, {name = new, position = {x, y}})
+            if (not c.check_for_instant_death) or (x * x + y * y > 3) then
+                local old = surface.get_tile(x, y).name
+                local new = terrain_pattern_get(x, y)
+                if new == "land" then
+                    if old == "water" or old == "deepwater" then
+                        append(tiles, {name = "grass", position = {x, y}})
+                    end
+                else
+                    if not (new == old) then
+                        append(tiles, {name = new, position = {x, y}})
+                    end
                 end
             end
         end

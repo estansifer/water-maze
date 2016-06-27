@@ -7,8 +7,8 @@ Hosted at `https://github.com/estansifer/water-maze/`
 This mod changes the distribution of land and water at the start of a new game.
 
 A variety of terrain generation algorithms are included in the mod, and they can be fully
-configured by editing control.lua. By default, the mod generates an infinite maze with path
-width 32. This mod can also be used to remove all water from the game.
+configured by editing `config.lua`. By default, the mod generates an infinite maze with path
+width 16. This mod can also be used to remove all water from the game.
 
 ## Important Notes
 
@@ -71,6 +71,33 @@ width 32. This mod can also be used to remove all water from the game.
  almost a fractal (it would be a fractal if the probability of land were exactly the critical
  threshold, but in that case land masses would not be infinite).
 
+## List of patterns
+
+ Optional parameters have default value shown.
+
+ * Strip(<halfwidth> = 1)
+ * Cross(<halfwidth> = 1)
+ * Comb()
+ * Grid()
+ * Spiral(<ratio> = 1.4, <land> = 0.5)
+ * ConcentricCircles(<ratio> = 1.4, <land> = 0.5)
+ * SquaresAndBridges(<islandradius> = 32, <bridgelength> = 48, <bridgewidth> = 2)
+ * Islandify(<pattern>, <islandradius> = 32, <bridgelength> = 48, <bridgewidth> = 2)
+ * Zoom(<pattern>, <factor>=16)
+ * Square(<radius> = 1)
+ * Circle(<radius> = 32)
+ * Halfplane()
+ * Quarterplane()
+ * Union(<pattern>, <pattern>)
+ * Intersection(<pattern>, <pattern>)
+ * Translate(<pattern>, <dx>, <dy>)
+ * Maze1()
+ * Maze2()
+ * Maze3(<threshold> = 0.6, <verify> = true)
+ * Mandelbrot(<size> = 100)
+ * Barcode(<angle>, <landthickness> = 20, <waterthickness> = 50)
+ * JaggedIslands(<landratio> = 0.5)
+
 ## Screenshots
 
 [screenshots](https://imgur.com/a/wptLh)
@@ -82,6 +109,7 @@ information.
 Screenshots are from pre-0.0.1.
 
 ## Versions
+ * 0.0.7 Added Mandelbrot, JaggedIslands, and Barcode patterns.
  * 0.0.6 Partial re-write. Moved configuration to `config.lua`. Added several new patterns,
  including Spiral and Islandify. Most patterns renamed more sensibly. Total overhaul of saving
  and loading to address earlier limitations that made it impossible to load a game saved with
