@@ -10,6 +10,19 @@ A variety of terrain generation algorithms are included in the mod, and they can
 configured by editing `config.lua`. By default, the mod generates an infinite maze with path
 width 16. This mod can also be used to remove all water from the game.
 
+## About
+
+ * Type: Mod
+ * Name: Water maze
+ * Description: Changes the distribution of water and land at the start of a new game
+ * License: MIT
+ * Author: swni
+ * Version: 0.0.7
+ * Release: 2016-03-15
+ * Tested-With-Factorio-Version: 0.12.35
+ * Category: Gameplay
+ * Tags: terrain, water, land
+
 ## Important Notes
 
  * To configure the mod, edit the configuration section at the top of `config.lua`. There

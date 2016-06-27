@@ -20,9 +20,9 @@ local pattern = Zoom(Maze2(), 16)
 -- local pattern = Union(Zoom(JaggedIslands(0.3), 32), Union(Barcode(0, 6, 50), Barcode(90, 6, 50)))
 
 config = {
-    start_with_car      = true,
+    start_with_car      = false,
     disable_water       = false,
-    big_scans           = true,
+    big_scans           = false,
     check_for_instant_death = true,
     terrain_pattern     = TerrainPattern(pattern, watercolor)
 }
