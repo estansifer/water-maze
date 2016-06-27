@@ -1,4 +1,3 @@
-require "defines"
 require "util"
 
 require "config"
@@ -68,7 +67,7 @@ end
 local function player_created(event)
     local c = global.saved_config
     if c ~= nil and c.start_with_car then
-        local player = game.get_player(event.player_index)
+        local player = game.players[event.player_index]
         player.character.insert{name = "coal", count = 50}
         player.character.insert{name = "car", count = 1}
     end
