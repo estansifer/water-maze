@@ -17,9 +17,9 @@ width 16. This mod can also be used to remove all water from the game.
  * Description: Changes the distribution of water and land at the start of a new game
  * License: MIT
  * Author: swni
- * Version: 0.0.7
+ * Version: 0.0.8
  * Release: 2016-03-15
- * Tested-With-Factorio-Version: 0.12.35
+ * Tested-With-Factorio-Version: 0.13.0
  * Category: Gameplay
  * Tags: terrain, water, land
 
@@ -122,6 +122,7 @@ information.
 Screenshots are from pre-0.0.1.
 
 ## Versions
+ * 0.0.8 Updated for Factorio 0.13.
  * 0.0.7 Added Mandelbrot, JaggedIslands, and Barcode patterns.
  * 0.0.6 Partial re-write. Moved configuration to `config.lua`. Added several new patterns,
  including Spiral and Islandify. Most patterns renamed more sensibly. Total overhaul of saving
