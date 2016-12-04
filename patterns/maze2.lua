@@ -194,11 +194,15 @@ function Maze2()
         end
     end
 
-    local function get(x, y)
+    local function geti(x, y)
         while math.sqrt(x * x + y * y) + 5 > math.sqrt(data.nearest) do
             diffuse()
         end
         return data.land[key(x, y)] == true
+    end
+
+    local function get(x, y)
+        return geti(math.floor(x + 0.5), math.floor(y + 0.5))
     end
 
     return {

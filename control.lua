@@ -33,6 +33,10 @@ local function make_chunk(event)
     if c == nil or c.disable_water or terrain_pattern_get == nil then
         return
     end
+    -- Bug fix from EldVarg
+    if event.surface.name ~= "nauvis" then
+        return
+    end
 
     local x1 = event.area.left_top.x
     local y1 = event.area.left_top.y

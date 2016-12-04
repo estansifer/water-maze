@@ -212,7 +212,7 @@ function Maze1()
         resync()
     end
 
-    local function get(x, y)
+    local function geti(x, y)
         k = key(x, y)
         while true do
             v = values[k]
@@ -222,6 +222,10 @@ function Maze1()
                 return v
             end
         end
+    end
+
+    local function get(x, y)
+        return geti(math.floor(x + 0.5), math.floor(y + 0.5))
     end
 
     return {

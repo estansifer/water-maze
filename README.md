@@ -17,7 +17,7 @@ width 16. This mod can also be used to remove all water from the game.
  * Description: Changes the distribution of water and land at the start of a new game
  * License: MIT
  * Author: swni
- * Version: 0.0.9
+ * Version: 0.1.0
  * Release: 2016-03-15
  * Tested-With-Factorio-Version: 0.14.16
  * Category: Gameplay

@@ -28,12 +28,16 @@ function Maze3(t, v)
         return math.random() < threshhold
     end
 
-    local function get(x, y)
+    local function geti(x, y)
         local key = x .. '#' .. y
         if data.values[key] == nil then
             data.values[key] = compute(x, y)
         end
         return data.values[key]
+    end
+
+    local function get(x, y)
+        return geti(math.floor(x + 0.5), math.floor(y + 0.5))
     end
 
     local function floodfill(visited, x, y)
