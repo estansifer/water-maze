@@ -5,7 +5,7 @@ require "transforms"
 --      If the square is water in p1, the whole new region is water
 --      If the square is land in p1, the whole new region is taken from pattern p2
 
-function Convolve(p1, p2, sizex, sizey)
+function KroneckerProduct(p1, p2, sizex, sizey)
     local p1get = p1.get
     local p2get = p2.get
     local sizey = sizey or sizex
@@ -35,13 +35,13 @@ function Convolve(p1, p2, sizex, sizey)
         create = create,
         reload = reload,
         get = get,
-        lua = 'Convolve(' .. p1.lua .. ', ' .. p2.lua .. ', ' .. sizex .. ', ' .. sizey .. ')'
+        lua = 'KroneckerProduct(' .. p1.lua .. ', ' .. p2.lua .. ', ' .. sizex .. ', ' .. sizey .. ')'
     }
 end
 
 -- Same, but now we add a gap of size bridgelength between each region. This gap is
 -- filled with a bridge of the indicated width when two adjacent cells both have land.
-function ConvolveBridges(p1, p2, sizex, sizey, bridgelength, bridgewidth)
+function Islandify(p1, p2, sizex, sizey, bridgelength, bridgewidth)
     local p1get = p1.get
     local p2get = p2.get
     local sizey = sizey or sizex
@@ -99,35 +99,17 @@ function ConvolveBridges(p1, p2, sizex, sizey, bridgelength, bridgewidth)
         create = create,
         reload = reload,
         get = get,
-        lua = 'ConvolveBridges(' .. p1.lua .. ', ' .. p2.lua .. ', ' .. sizex .. ', ' .. sizey .. ', ' .. l .. ', ' .. w .. ')'
+        lua = 'Islandify(' .. p1.lua .. ', ' .. p2.lua .. ', ' .. sizex .. ', ' .. sizey .. ', ' .. l .. ', ' .. w .. ')'
     }
 end
 
 -- Makes a pattern with a bunch of square islands connected by bridges.
-
 function SquaresAndBridges(islandradius, bridgelength, bridgewidth)
     local r = islandradius or 32
     local l = bridgelength or 48
     local w = bridgewidth or 2
     local n = 2 * r + l + w
-    return ConvolveBridges(AllLand(), AllLand(), 2 * r, 2 * r, l, w)
-    -- local r = islandradius or 32
-    -- local k = bridgelength or 48
-    -- local w = bridgewidth or 2
-    -- local n = 2 * r + w + k
-    -- local function get(x, y)
-        -- x = x % n
-        -- y = y % n
-        -- if (x < w) or (y < w) then
-            -- return true
-        -- else
-            -- x = (x + r) % n
-            -- y = (y + r) % n
-            -- return (x < 2 * r + w) and (y < 2 * r + w)
-        -- end
-    -- end
-    -- local lua = 'SquaresAndBridges(' .. r .. ', ' .. k .. ', ' .. w .. ')'
-    -- return {create = noop, reload = noop, get = get, lua = lua}
+    return Islandify(AllLand(), AllLand(), 2 * r, 2 * r, l, w)
 end
 
 -- Makes a pattern with a bunch of circular islands connected by bridges.
@@ -136,26 +118,26 @@ function CirclesAndBridges(islandradius, bridgelength, bridgewidth)
     local l = bridgelength or 48
     local w = bridgewidth or 2
     local n = 2 * r + l + w
-    return ConvolveBridges(AllLand(), Translate(Circle(r), r, r), 2 * r, 2 * r, l, w)
+    return Islandify(AllLand(), Translate(Circle(r), r, r), 2 * r, 2 * r, l, w)
 end
 
 -- This pattern is based on an idea and code by Donovan Hawkins:
 -- https://forums.factorio.com/viewtopic.php?f=94&t=21568&start=10#p138292
-function SquareConvolveBridges(pattern, islandradius, bridgelength, bridgewidth)
+function IslandifySquares(pattern, islandradius, bridgelength, bridgewidth)
     local r = islandradius or 32
     local l = bridgelength or 48
     local w = bridgewidth or 2
     local n = 2 * r + l + w
-    return ConvolveBridges(pattern, AllLand(), 2 * r, 2 * r, l, w)
+    return Islandify(pattern, AllLand(), 2 * r, 2 * r, l, w)
 end
 
 -- Suggested by EldVarg
-function CircleConvolveBridges(pattern, islandradius, bridgelength, bridgewidth)
+function IslandifyCircles(pattern, islandradius, bridgelength, bridgewidth)
     local r = islandradius or 32
     local l = bridgelength or 48
     local w = bridgewidth or 2
     local n = 2 * r + l + w
-    return ConvolveBridges(pattern, Translate(Circle(r), r, r), 2 * r, 2 * r, l, w)
+    return Islandify(pattern, Translate(Circle(r), r, r), 2 * r, 2 * r, l, w)
 end
 
 -- This pattern is based on an idea and code by Donovan Hawkins:

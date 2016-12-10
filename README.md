@@ -8,7 +8,7 @@ This mod changes the distribution of land and water at the start of a new game.
 
 A variety of terrain generation algorithms are included in the mod, and they can be fully
 configured by editing `config.lua`. By default, the mod generates an infinite maze with path
-width 16. This mod can also be used to remove all water from the game.
+width 32. This mod can also be used to remove all water from the game.
 
 ## About
 
@@ -19,7 +19,7 @@ width 16. This mod can also be used to remove all water from the game.
  * Author: swni
  * Version: 0.1.0
  * Release: 2016-03-15
- * Tested-With-Factorio-Version: 0.14.16
+ * Tested-With-Factorio-Version: 0.14.21
  * Category: Gameplay
  * Tags: terrain, water, land
 
@@ -86,30 +86,49 @@ width 16. This mod can also be used to remove all water from the game.
 
 ## List of patterns
 
- Optional parameters have default value shown.
+Patterns (optional arguments show default value)
 
- * Strip(halfwidth = 1)
- * Cross(halfwidth = 1)
- * Comb()
- * Grid()
- * Spiral(ratio = 1.4, land = 0.5)
- * ConcentricCircles(ratio = 1.4, land = 0.5)
- * SquaresAndBridges(islandradius = 32, bridgelength = 48, bridgewidth = 2)
- * Islandify(pattern, islandradius = 32, bridgelength = 48, bridgewidth = 2)
- * Zoom(pattern, factor=16)
- * Square(radius = 1)
- * Circle(radius = 32)
- * Halfplane()
- * Quarterplane()
- * Union(pattern1, pattern2)
- * Intersection(pattern1, pattern2)
- * Translate(pattern, dx, dy)
- * Maze1()
- * Maze2()
- * Maze3(threshold = 0.6, verify = true)
- * Mandelbrot(size = 100)
- * Barcode(angle, landthickness = 20, waterthickness = 50)
- * JaggedIslands(landratio = 0.5)
+    * Simple patterns
+        * AllLand()
+        * AllWater()
+        * Square(radius = 32)
+        * Circle(radius = 32)
+        * Halfplane()
+        * Quarterplane()
+        * Strip(width = 1)
+        * Cross(width = 1)
+        * Comb()
+        * Grid()
+        * Checkerboard()
+        * Spiral(ratio = 1.4, land = 0.5)
+        * ConcentricCircles(ratio = 1.4, land = 0.5)
+    * Transformations
+        * Zoom(pattern. factor = 16)
+        * Invert(pattern)
+        * Union(pattern1, pattern2)
+        * Intersection(pattern1, pattern2)
+        * Translate(pattern, dx, dy)
+        * Rotate(pattern, angle)
+        * Affine(pattern, a, b, c, d, dx, dy)
+        * Tile(pattern, xszize, ysize)
+        * AngularRepeat(pattern, k)
+        * Jitter(pattern, radius = 10)
+        * Distort(pattern, wavelengths = distort_light)
+        * Smooth(pattern, radius = 3) -- too slow, don't use
+    * Islands with bridges patterns
+        * KroneckerProduct(pattern1, pattern2, sizex, sizey = sizex)
+        * Islandify(pattern1, pattern1, sizex, sizey = sizex, bridgelenth = 48, bridgewidth = 2)
+        * SquaresAndBridges(islandradius = 32, bridgelength = 48, bridgewidth = 2)
+        * CirclesAndBridges(islandradius = 32, bridgelength = 48, bridgewidth = 2)
+        * IslandifySquares(pattern, islandradius = 32, bridgelength = 48, bridgewidth = 2)
+        * IslandifyCircles(pattern, islandradius = 32, bridgelength = 48, bridgewidth = 2)
+    * Complicated patterns
+        * Barcode(angle = 0, landthickness = 20, waterthickness = 50)
+        * JaggedIslands(landratio = 0.5)
+        * Mandelbrot(sixe = 100)
+        * Maze1()
+        * Maze2()
+        * Maze3(threshold = 0.6, verify = true)
 
 ## Screenshots
 
@@ -122,6 +141,11 @@ information.
 Screenshots are from pre-0.0.1.
 
 ## Versions
+ * 0.1.0 Added Distort, Jitter, Checkerboard, AllLand, AllWater, Rotate, Affine, Tile,
+ AngularRepeat, Invert, Smooth, KroneckerProduct, IslandifyCircles, SquaresAndBridges,
+ and CirclesAndBridges patterns. Multiple backwards incompatible changes. Made compatible
+ with Factorissimo. Fixed bug in loading games saved with JaggedIslands with non-default
+ land ratio.
  * 0.0.9 Updated for Factorio 0.14.
  * 0.0.8 Updated for Factorio 0.13.
  * 0.0.7 Added Mandelbrot, JaggedIslands, and Barcode patterns.

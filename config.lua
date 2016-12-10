@@ -13,7 +13,7 @@ local pattern = Zoom(Maze2(), 32)
 
 -- Some fun patterns!:
 -- local pattern = SquaresAndBridges(64, 32, 4) -- the most popular pattern, probably
--- local pattern = Islandify(Maze3(), 16, 8, 4)
+-- local pattern = IslandifySquares(Maze3(), 16, 8, 4)
 -- local pattern = Union(Zoom(Cross(), 16), ConcentricCircles(1.3))
 -- local pattern = Intersection(Zoom(Maze3(), 32), Zoom(Grid(), 2))
 -- local pattern = Distort(Zoom(Comb(), 32))
@@ -34,43 +34,54 @@ config = {
 
         watercolor:
             "blue" or "green"
+        
+        Patterns (optional arguments show default value)
 
-        First, define a pattern from one of the examples given.
-            Maze1 -- builds a weird maze
-            Maze2 -- a very nice looking maze algorithm which builds a DLA. It is based on
-                Wilson's algorithm and involves diffusion. Definitely the best of the three
-                maze algorithms.
-            Maze3 -- a simple algorithm that gives very irregular and random shapes. It is
-                related to percolation theory.
-            Strip
-            Cross
-            Comb
-            Grid
-            SquaresAndBridges
-            Square
-            Circle
-            Halfplane
-            Quarterplane
-
-        For Maze2 (and to a much lesser extent with Maze1) you may run into performance
-        problems when exploring new territory far from the origin. This is especially true
-        if your zoom factor is low.
-
-        You can modify patterns with
-            Islandify(pattern, r, w, l)
+        barcode
+            Barcode(angle = 0, landthickness = 20, waterthickness = 50)
+        distort
+            Distort(pattern, wavelengths = distort_light)
+        islandify
+            KroneckerProduct(pattern1, pattern2, sizex, sizey = sizex)
+            Islandify(pattern1, pattern1, sizex, sizey = sizex, bridgelenth = 48, bridgewidth = 2)
+            SquaresAndBridges(islandradius = 32, bridgelength = 48, bridgewidth = 2)
+            CirclesAndBridges(islandradius = 32, bridgelength = 48, bridgewidth = 2)
+            IslandifySquares(pattern, islandradius = 32, bridgelength = 48, bridgewidth = 2)
+            IslandifyCircles(pattern, islandradius = 32, bridgelength = 48, bridgewidth = 2)
+        jaggedislands
+            JaggedIslands(landratio = 0.5)
+        mandelbrot
+            Mandelbrot(sixe = 100)
+        maze1
+            Maze1()
+        maze2
+            Maze2()
+        maze3
+            Maze3(threshold = 0.6, verify = true)
+        simple
+            AllLand()
+            AllWater()
+            Square(radius = 32)
+            Circle(radius = 32)
+            Halfplane()
+            Quarterplane()
+            Strip(width = 1)
+            Cross(width = 1)
+            Comb()
+            Gridf()
+            Checkerboard()
+            Spiral(ratio = 1.4, land = 0.5)
+            ConcentricCircles(ratio = 1.4, land = 0.5)
+        transform
+            Zoom(pattern. factor = 16)
+            Invert(pattern)
             Union(pattern1, pattern2)
             Intersection(pattern1, pattern2)
-            Translate(pattern, dx, dy) -- dx, dy must be integers
-            Zoom(pattern, factor) -- factor need not be integer
-        For example, unioning with an island pattern guarantees a large land area at the origin.
-
-        Second, optionally pass it through "Zoom" to change the resolution of the pattern.
-        This zooms in on the pattern by the specified amount. If you don't do this, there will
-        likely be no land area large enough to build any buildings on, or other bad behavior
-        might happen. An absolute minimum amount might be 2 to 4. I like 16 to 32. Smaller values
-        make it hard to find adequate land.
-
-        Fourth, pass through the TerrainPattern function. Thus function assumes that "true"
-        corresponds to land and "false" corresponds to water, and that all segments of land and
-        water are at least two tiles wide.
+            Translate(pattern, dx, dy)
+            Rotate(pattern, angle)
+            Affine(pattern, a, b, c, d, dx, dy)
+            Tile(pattern, xszize, ysize)
+            AngularRepeat(pattern, k)
+            Jitter(pattern, radius = 10)
+            Smooth(pattern, radius = 3) -- too slow, don't use
 ]]

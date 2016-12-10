@@ -7,7 +7,7 @@ require "barcode"
 require "distort"
 require "simple"
 require "transforms"
-require "convolve"
+require "islandify"
 
 function Safe(pattern, r)
     local radius = r or 4

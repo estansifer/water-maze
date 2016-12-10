@@ -1,5 +1,6 @@
 function JaggedIslands(landratio)
-    local l = math.sqrt(landratio or 0.5)
+    local lr = landratio or 0.5
+    local l = math.sqrt(lr)
     local dirs = {
         {dx = 1, dy = 0},
         {dx = -1, dy = 0},
@@ -113,6 +114,6 @@ function JaggedIslands(landratio)
         create = create,
         reload = reload,
         get = get,
-        lua = 'JaggedIslands()'
+        lua = 'JaggedIslands(' .. lr .. ')'
     }
 end
