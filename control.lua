@@ -1,40 +1,14 @@
 require "util"
-
 require "config"
 
 local terrain_pattern_get = nil
 
 local append = table.insert
 
-local msg = 0
-
-function db(s)
-    game.player.print('Debug [' .. msg .. ']    ' .. s)
-    msg = msg + 1
-end
-
-local function scan_near_player(player, radius)
-    local x = player.position.x
-    local y = player.position.y
-    player.force.chart(player.surface, {{x - radius, y - radius}, {x + radius, y + radius}})
-end
-
-local function big_scan(event)
-    if (event.tick % 600) == 0 then
-        local ps = game.players
-        if (ps ~= nil) and (ps[1] ~= nil) then
-            scan_near_player(ps[1], 200)
-        end
-    end
-end
-
 local function make_chunk(event)
     local c = global.saved_config
-    if c == nil or c.disable_water or terrain_pattern_get == nil then
-        return
-    end
-    -- Bug fix from EldVarg
-    if event.surface.name ~= "nauvis" then
+    if c == nil or terrain_pattern_get == nil or event.surface.name ~= "nauvis" then
+        -- "nauvis" change from EldVarg, to make it compatible with Factorissimo
         return
     end
 
@@ -68,15 +42,6 @@ local function make_chunk(event)
     surface.set_tiles(tiles)
 end
 
-local function player_created(event)
-    local c = global.saved_config
-    if c ~= nil and c.start_with_car then
-        local player = game.players[event.player_index]
-        player.character.insert{name = "coal", count = 50}
-        player.character.insert{name = "car", count = 1}
-    end
-end
-
 local function on_load(event)
     local c = global.saved_config
     if c ~= nil then
@@ -86,11 +51,7 @@ local function on_load(event)
             tp.reload(c.tp_data)
             terrain_pattern_get = tp.get
         end
-        if c.big_scans then
-            script.on_event(defines.events.on_tick, big_scan)
-        end
         script.on_event(defines.events.on_chunk_generated, make_chunk)
-        script.on_event(defines.events.on_player_created, player_created)
     end
 end
 

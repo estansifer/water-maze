@@ -6,7 +6,9 @@ require "patterns/patterns"
 
 local watercolor = "blue"
 
-local pattern = Zoom(Maze2(), 16)
+local pattern = Zoom(Maze2(), 32)
+-- local pattern = Distort(Distort(Distort(Zoom(Checkerboard(), 16), 64, 1), 32, 0.05), 256, 1)
+-- local pattern = Distort(Distort(Distort(Zoom(Checkerboard(), 32), 256, 3.0), 128, 0.4), 64, 0.3)
 -- You might want to change the 16 above to a larger number to make it more playable
 
 -- Some fun patterns!:
@@ -14,15 +16,13 @@ local pattern = Zoom(Maze2(), 16)
 -- local pattern = Islandify(Maze3(), 16, 8, 4)
 -- local pattern = Union(Zoom(Cross(), 16), ConcentricCircles(1.3))
 -- local pattern = Intersection(Zoom(Maze3(), 32), Zoom(Grid(), 2))
+-- local pattern = Distort(Zoom(Comb(), 32))
 -- local pattern = Union(Spiral(1.6, 0.6), Intersection(Zoom(Maze3(0.5, false), 8), Zoom(Grid(), 2)))
 -- local pattern = Union(Union(Zoom(Maze3(0.25, false), 31), Zoom(Maze3(0.1, false), 97)), Zoom(Maze3(0.6), 11))
 -- local pattern = Union(Barcode(10, 5, 20), Barcode(60, 5, 30))
 -- local pattern = Union(Zoom(JaggedIslands(0.3), 32), Union(Barcode(0, 6, 50), Barcode(90, 6, 50)))
 
 config = {
-    start_with_car      = false,
-    disable_water       = false,
-    big_scans           = false,
     check_for_instant_death = true,
     terrain_pattern     = TerrainPattern(pattern, watercolor)
 }

@@ -276,3 +276,65 @@ function Jitter(pattern, radius)
         lua = 'Jitter(' .. pattern.lua .. ', ' .. r .. ')'
     }
 end
+
+-- Poor performance, don't use
+function Smooth(pattern, radius)
+    local pget = pattern.get
+    local r = radius or 3
+
+    local dx = {}
+    local dy = {}
+    local total = 0
+    for i = -r,r+1 do
+        for j = -r,r+1 do
+            if i * i + j * j <= r * r then
+                table.insert(dx, i)
+                table.insert(dy, j)
+                total = total + 1
+            end
+        end
+    end
+
+    local data
+
+    local function create()
+        data = {}
+        data.values = {}
+        data.pattern = pattern.create()
+        return data
+    end
+
+    local function reload(d)
+        data = d
+        pattern.reload(data.pattern)
+    end
+
+    local function compute(x, y)
+        local count = 0
+        for i = 1,total do
+            if pget(x + dx[i], y + dy[i]) then
+                count = count + 1
+            end
+        end
+        return count * 2 > total
+    end
+
+    local function geti(x, y)
+        local key = x .. '#' .. y
+        if data.values[key] == nil then
+            data.values[key] = compute(x, y)
+        end
+        return data.values[key]
+    end
+
+    local function get(x, y)
+        return geti(math.floor(x + 0.5), math.floor(y + 0.5))
+    end
+
+    return {
+        create = create,
+        reload = reload,
+        get = get,
+        lua = 'Jitter(' .. pattern.lua .. ', ' .. r .. ')'
+    }
+end
